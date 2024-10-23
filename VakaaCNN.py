@@ -17,7 +17,7 @@ import winsound
 
 # Definir transformaciones para las imágenes
 transform = transforms.Compose([
-    transforms.Resize((450, 950)),  # Resize the images
+    transforms.Resize((950, 450)),  # Resize the images
     transforms.RandomHorizontalFlip(p=0.5),  # Apply horizontal flip with a 50% chance
     transforms.RandomVerticalFlip(p=0.5),    # Apply vertical flip with a 50% chance (optional)
     transforms.RandomRotation(degrees=30),   # Randomly rotate the image by up to 30 degrees
@@ -34,9 +34,9 @@ test_dataset = ImageFolder(root='dataset_split\\test', transform=transform)
 print(f"Clases encontradas: {train_dataset.classes}")
 
 # Crear los DataLoader para cada conjunto de datos
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True,num_workers=4)
-validation_loader = DataLoader(validation_dataset, batch_size=64, shuffle=False,num_workers=4)
-test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False,num_workers=4)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+validation_loader = DataLoader(validation_dataset, batch_size=32, shuffle=False,)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
 
 # Modelo simple (CNN) para clasificación de las tres clases
 class SimpleCNN(nn.Module):
@@ -50,6 +50,9 @@ class SimpleCNN(nn.Module):
         self.fc_layer = nn.Sequential(
             nn.Flatten(),
             nn.Linear(16 * 225 * 475, 128),
+            nn.ReLU(),
+            nn.Dropout(0.5), # Dropout para regularización
+            nn.Linear(128, 128),
             nn.ReLU(),
             nn.Linear(128, 3)  # 3 clases: vaca_de_pie, vaca_acostada, cama_vacia
         )
@@ -106,10 +109,6 @@ for epoch in range(num_epochs):
     validation_accuracy = 100 * correct / total
     print(f'Validation Accuracy: {validation_accuracy}%')
 
-    # # Guardar el modelo cada 3 epochs
-    # if (epoch + 1) % 3 == 0:
-    #     torch.save(model.state_dict(), f'Modelos/model_epoch_{epoch+1}.pth')
-    #     print(f'Model saved at epoch {epoch+1}')
     if validation_accuracy > AcurracyTarget:
         torch.save(model.state_dict(), f'Modelos/model_epoch_{epoch+1}.pth')
         AcurracyTarget = validation_accuracy
