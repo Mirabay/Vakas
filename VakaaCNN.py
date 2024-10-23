@@ -105,7 +105,7 @@ for epoch in range(num_epochs):
 
     # Guardar el modelo cada 3 epochs
     if (epoch + 1) % 3 == 0:
-        torch.save(model.state_dict(), f'model_epoch_{epoch+1}.pth')
+        torch.save(model.state_dict(), f'Modelos/model_epoch_{epoch+1}.pth')
         print(f'Model saved at epoch {epoch+1}')
         
 
