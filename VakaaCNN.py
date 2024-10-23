@@ -12,6 +12,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Make a sound when the training is done
+import winsound
+
 # Definir transformaciones para las imágenes
 transform = transforms.Compose([
     transforms.Resize((450, 950)),  # Resize the images
@@ -31,9 +34,9 @@ test_dataset = ImageFolder(root='dataset_split\\test', transform=transform)
 print(f"Clases encontradas: {train_dataset.classes}")
 
 # Crear los DataLoader para cada conjunto de datos
-train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
-validation_loader = DataLoader(validation_dataset, batch_size=16, shuffle=False)
-test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
+train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True,num_workers=4)
+validation_loader = DataLoader(validation_dataset, batch_size=64, shuffle=False,num_workers=4)
+test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False,num_workers=4)
 
 # Modelo simple (CNN) para clasificación de las tres clases
 class SimpleCNN(nn.Module):
@@ -68,7 +71,7 @@ print(f'Usando el dispositivo: {device}')
 
 # Hiperparámetros
 num_epochs = 25
-
+AcurracyTarget = 90
 # Entrenamiento del modelo
 for epoch in range(num_epochs):
     model.train()  # Modo de entrenamiento
@@ -103,12 +106,18 @@ for epoch in range(num_epochs):
     validation_accuracy = 100 * correct / total
     print(f'Validation Accuracy: {validation_accuracy}%')
 
-    # Guardar el modelo cada 3 epochs
-    if (epoch + 1) % 3 == 0:
+    # # Guardar el modelo cada 3 epochs
+    # if (epoch + 1) % 3 == 0:
+    #     torch.save(model.state_dict(), f'Modelos/model_epoch_{epoch+1}.pth')
+    #     print(f'Model saved at epoch {epoch+1}')
+    if validation_accuracy > AcurracyTarget:
         torch.save(model.state_dict(), f'Modelos/model_epoch_{epoch+1}.pth')
-        print(f'Model saved at epoch {epoch+1}')
-        
+        AcurracyTarget = validation_accuracy
+        print(f'Model saved at epoch {epoch+1}')        
 
+frequency = 2500  # Set Frequency To 2500 Hertz
+duration = 1000  # Set Duration To 1000 ms == 1 second
+winsound.Beep(frequency, duration)
 
 model.eval()  # Modo de evaluación
 y_true = []
