@@ -14,6 +14,11 @@ import seaborn as sns
 
 # Make a sound when the training is done
 import winsound
+import os
+
+# Crear la carpeta 'Modelos' si no existe
+if not os.path.exists('Modelos'):
+    os.makedirs('Modelos')
 
 # Definir transformaciones para las imágenes
 transform = transforms.Compose([
@@ -35,26 +40,33 @@ print(f"Clases encontradas: {train_dataset.classes}")
 
 # Crear los DataLoader para cada conjunto de datos
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-validation_loader = DataLoader(validation_dataset, batch_size=32, shuffle=False,)
-test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+validation_loader = DataLoader(validation_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
 
 # Modelo simple (CNN) para clasificación de las tres clases
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
         self.conv_layer = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, padding=1),
+            nn.Conv2d(3, 16, kernel_size=3, padding=1), # 3 canales de entrada, 16 filtros de 3x3
             nn.ReLU(),
             nn.MaxPool2d(2, 2)
         )
         self.fc_layer = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(16 * 225 * 475, 128),
+            nn.Linear(16 * 225 * 475, 16), 
             nn.ReLU(),
-            nn.Dropout(0.5), # Dropout para regularización
-            nn.Linear(128, 128),
+
+            nn.Linear(16, 32),
             nn.ReLU(),
-            nn.Linear(128, 3)  # 3 clases: vaca_de_pie, vaca_acostada, cama_vacia
+
+            nn.Linear(32, 64),
+            nn.ReLU(),
+
+            nn.Linear(64, 128),
+            nn.ReLU(),
+            nn.Linear(128, 3),  # 3 clases: vaca_de_pie, vaca_acostada, cama_vacia
+            # nn.Softmax(dim=1) # Softmax para clasificación multiclase
         )
 
     def forward(self, x):
@@ -74,7 +86,7 @@ print(f'Usando el dispositivo: {device}')
 
 # Hiperparámetros
 num_epochs = 25
-AcurracyTarget = 90
+AcurracyTarget = 95
 # Entrenamiento del modelo
 for epoch in range(num_epochs):
     model.train()  # Modo de entrenamiento
@@ -110,7 +122,7 @@ for epoch in range(num_epochs):
     print(f'Validation Accuracy: {validation_accuracy}%')
 
     if validation_accuracy > AcurracyTarget:
-        torch.save(model.state_dict(), f'Modelos/model_epoch_{epoch+1}.pth')
+        torch.save(model.state_dict(), f'Modelos/model_acc_{validation_accuracy:.2f}.pth')
         AcurracyTarget = validation_accuracy
         print(f'Model saved at epoch {epoch+1}')        
 
