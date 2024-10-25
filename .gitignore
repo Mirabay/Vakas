@@ -11829,3 +11829,12 @@ dataset_split/validation/vaca_de_pie/3_2024-01-22-12-30-05.jpg
 dataset_split/validation/vaca_de_pie/3_2024-01-22-12-40-05.jpg
 dataset_split/validation/vaca_de_pie/3_2024-01-22-13-35-05.jpg
 dataset_split/validation/vaca_de_pie/3_2024-02-08-22-35-03.jpg
+Modelos/model_acc_95.77.pth
+Modelos/model_acc_95.82.pth
+Modelos/model_acc_96.16.pth
+Modelos/model_acc_97.23.pth
+Modelos/model_acc_97.40.pth
+Modelos/model_acc_97.97.pth
+Modelos/model_acc_98.14.pth
+Modelos/modelFinal.pth
+TrainingHistory/training_history.png

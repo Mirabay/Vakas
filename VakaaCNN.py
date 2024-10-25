@@ -26,6 +26,7 @@ transform = transforms.Compose([
     transforms.RandomHorizontalFlip(p=0.5),  # Apply horizontal flip with a 50% chance
     transforms.RandomVerticalFlip(p=0.5),    # Apply vertical flip with a 50% chance (optional)
     transforms.RandomRotation(degrees=30),   # Randomly rotate the image by up to 30 degrees
+    transforms.RandomAffine(degrees=0, scale=(0.5, 1.0)),  # Emulate camera zooming out , scale=(0.5, 1.0) 50% to 100%
     transforms.ToTensor(),                   # Convert image to tensor
     transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])  # Normalize the values
 ])
@@ -42,6 +43,7 @@ print(f"Clases encontradas: {train_dataset.classes}")
 train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 validation_loader = DataLoader(validation_dataset, batch_size=32, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
+
 
 # Modelo simple (CNN) para clasificación de las tres clases
 class SimpleCNN(nn.Module):
@@ -74,15 +76,17 @@ class SimpleCNN(nn.Module):
         x = self.fc_layer(x)
         return x
     
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f'Usando el dispositivo: {device}')
+
     # Inicializar el modelo, criterio (loss) y optimizador
 model = SimpleCNN()
-criterion = nn.CrossEntropyLoss()  # Para clasificación multiclase
+weight = torch.tensor([1.0, 1.0, 2.0], device=device)  # Peso para cada clase
+criterion = nn.CrossEntropyLoss( weight= weight)  # Para clasificación multiclase
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Entrenar con Gpu
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
-print(f'Usando el dispositivo: {device}')
 
 # Hiperparámetros
 num_epochs = 25
