@@ -54,11 +54,11 @@ class SimpleCNN(nn.Module):
         )
         self.fc_layer = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(16 * 225 * 475, 16), 
+            nn.Linear(16 * 225 * 475, 32), 
             nn.ReLU(),
 
-            nn.Linear(16, 32),
-            nn.ReLU(),
+            # nn.Linear(16, 32),
+            # nn.ReLU(),
 
             nn.Linear(32, 64),
             nn.ReLU(),
@@ -87,6 +87,15 @@ print(f'Usando el dispositivo: {device}')
 # Hiperparámetros
 num_epochs = 25
 AcurracyTarget = 95
+
+# Crear la carpeta 'TrainingHistory' si no existe
+if not os.path.exists('TrainingHistory'):
+    os.makedirs('TrainingHistory')
+
+# Inicializar listas para guardar el historial de entrenamiento
+train_losses = []
+validation_accuracies = []
+
 # Entrenamiento del modelo
 for epoch in range(num_epochs):
     model.train()  # Modo de entrenamiento
@@ -103,7 +112,9 @@ for epoch in range(num_epochs):
 
         running_loss += loss.item()
 
-    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {running_loss/len(train_loader)}')
+    epoch_loss = running_loss / len(train_loader)
+    train_losses.append(epoch_loss)
+    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss}')
 
     # Evaluación en el conjunto de validación
     model.eval()  # Modo de evaluación
@@ -119,12 +130,38 @@ for epoch in range(num_epochs):
             correct += (predicted == labels).sum().item()
 
     validation_accuracy = 100 * correct / total
+    validation_accuracies.append(validation_accuracy)
     print(f'Validation Accuracy: {validation_accuracy}%')
 
     if validation_accuracy > AcurracyTarget:
         torch.save(model.state_dict(), f'Modelos/model_acc_{validation_accuracy:.2f}.pth')
         AcurracyTarget = validation_accuracy
         print(f'Model saved at epoch {epoch+1}')        
+
+# Graficar el historial de entrenamiento
+plt.figure(figsize=(12, 5))
+
+# Pérdida de entrenamiento
+plt.subplot(1, 2, 1)
+plt.plot(range(1, num_epochs + 1), train_losses, label='Training Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.title('Training Loss History')
+plt.legend()
+plt.grid(True)
+
+# Precisión de validación
+plt.subplot(1, 2, 2)
+plt.plot(range(1, num_epochs + 1), validation_accuracies, label='Validation Accuracy')
+plt.xlabel('Epochs')
+plt.ylabel('Accuracy (%)')
+plt.title('Validation Accuracy History')
+plt.legend()
+plt.grid(True)
+
+# Guardar las figuras
+plt.savefig('TrainingHistory/training_history.png')
+# plt.show()
 
 frequency = 2500  # Set Frequency To 2500 Hertz
 duration = 1000  # Set Duration To 1000 ms == 1 second
