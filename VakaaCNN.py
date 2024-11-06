@@ -40,7 +40,7 @@ test_dataset = ImageFolder(root='dataset_split\\test', transform=transform)
 print(f"Clases encontradas: {train_dataset.classes}")
 
 # Crear los DataLoader para cada conjunto de datos
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True,num_workers=4, persistent_workers=True)
 validation_loader = DataLoader(validation_dataset, batch_size=32, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
 
@@ -58,9 +58,6 @@ class SimpleCNN(nn.Module):
             nn.Flatten(),
             nn.Linear(16 * 225 * 475, 32), 
             nn.ReLU(),
-
-            # nn.Linear(16, 32),
-            # nn.ReLU(),
 
             nn.Linear(32, 64),
             nn.ReLU(),
@@ -81,7 +78,7 @@ print(f'Usando el dispositivo: {device}')
 
     # Inicializar el modelo, criterio (loss) y optimizador
 model = SimpleCNN()
-weight = torch.tensor([1.0, 1.0, 2.0], device=device)  # Peso para cada clase
+weight = torch.tensor([1.0, 3.0, 6.0], device=device)  # Peso para cada clase
 criterion = nn.CrossEntropyLoss( weight= weight)  # Para clasificación multiclase
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -89,7 +86,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 model.to(device)
 
 # Hiperparámetros
-num_epochs = 25
+num_epochs = 50
 AcurracyTarget = 95
 
 # Crear la carpeta 'TrainingHistory' si no existe
@@ -190,4 +187,5 @@ plt.xlabel('Predicted')
 plt.ylabel('Actual')
 plt.title('Confusion Matrix')
 plt.show()
+plt.savefig('TrainingHistory/confusion_matrix.png')
 
