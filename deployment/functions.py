@@ -16,6 +16,7 @@ def predict(model, image_path):
         [
             transforms.Resize(950, 450),
             transforms.ToTensor(),
+            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
         ]
     )
 
