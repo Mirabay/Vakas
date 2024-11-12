@@ -4,6 +4,7 @@ from PIL import Image
 from SimpleCNN import SimpleCNN
 import json
 from PIL import Image
+from torch.utils.data import DataLoader
 import csv
 import os
 
@@ -22,15 +23,15 @@ def predict_from_image(model, image):
         [
             transforms.Resize((950, 450)),  # Corrected to use a tuple
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),  # Corrected mean and std
+            transforms.Normalize(
+            mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),  
         ]
     )
-
     image = transform(image).unsqueeze(0)  # Add batch dimension
     clases = ['cama_vacia','vaca_acostada','vaca_parada']
     with torch.no_grad():
         output = model(image)
-        _, predicted = torch.max(output.data, 1)
+        _, predicted = torch.max(output, 1)
         predictedClass = clases[predicted.item()]
     return predictedClass
 
@@ -55,7 +56,6 @@ def crop_images_from_json(image_path, json_path):
 
         # Crop the image
         cropped_image = image.crop((x, y, x + width, y + height))
-
         images.append(cropped_image)
     return images
 
