@@ -1,7 +1,7 @@
 import torch
 from torchvision import transforms
 from PIL import Image
-from VakaaCNN import SimpleCNN  # TODO: Fix the import
+from SimpleCNN import SimpleCNN
 
 
 def load_model(model_path):
