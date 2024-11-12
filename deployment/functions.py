@@ -16,43 +16,23 @@ def load_model(model_path):
     return model
 
 
-# Predict the class of an image from a file path. Returns the class index
-def predict_from_file(model, image_path):
-    transform = transforms.Compose(
-        [
-            transforms.Resize(950, 450),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
-        ]
-    )
-
-    image = Image.open(image_path).convert("RGB")
-    image = transform(image).unsqueeze(0)  # Add batch dimension
-
-    with torch.no_grad():
-        output = model(image)
-        _, predicted = torch.max(output, 1)
-
-    return predicted.item()
-
-
 # Predict the class of an image from a PIL image. Returns the class index
 def predict_from_image(model, image):
     transform = transforms.Compose(
         [
-            transforms.Resize(950, 450),
+            transforms.Resize((950, 450)),  # Corrected to use a tuple
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),  # Corrected mean and std
         ]
     )
 
     image = transform(image).unsqueeze(0)  # Add batch dimension
-
+    clases = ['cama_vacia','vaca_acostada','vaca_parada']
     with torch.no_grad():
         output = model(image)
-        _, predicted = torch.max(output, 1)
-
-    return predicted.item()
+        _, predicted = torch.max(output.data, 1)
+        predictedClass = clases[predicted.item()]
+    return predictedClass
 
 
 # Crop images from a JSON file with coordinates. Returns a list of PIL images
@@ -77,7 +57,7 @@ def crop_images_from_json(image_path, json_path):
         cropped_image = image.crop((x, y, x + width, y + height))
 
         images.append(cropped_image)
-
+    return images
 
 # Predict the class of an image from a full image and a JSON file with coordinates. Stores the prediction in a csv file
 def predict_and_save(model, image_path, coordinates_path, output_path):
@@ -92,8 +72,13 @@ def predict_and_save(model, image_path, coordinates_path, output_path):
     if not os.path.exists(output_path):
         with open(output_path, mode="w", newline="") as file:
             writer = csv.writer(file)
-            # Create column names from A to Z
-            column_names = [chr(i) for i in range(65, 65 + len(predictions))]
+            # Create column names from A to Z and then AA to ZZ if needed
+            column_names = []
+            for i in range(len(predictions)):
+                if i < 26:
+                    column_names.append(chr(65 + i))
+                else:
+                    column_names.append(chr(65 + (i // 26) - 1) + chr(65 + (i % 26)))
             writer.writerow(column_names)
 
     # Append the predictions to the CSV file
