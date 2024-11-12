@@ -2,8 +2,13 @@ import torch
 from torchvision import transforms
 from PIL import Image
 from SimpleCNN import SimpleCNN
+import json
+from PIL import Image
+import csv
+import os
 
 
+# Load the model. Returns the model
 def load_model(model_path):
     model = SimpleCNN()
     model.load_state_dict(torch.load(model_path))
@@ -11,7 +16,8 @@ def load_model(model_path):
     return model
 
 
-def predict(model, image_path):
+# Predict the class of an image from a file path. Returns the class index
+def predict_from_file(model, image_path):
     transform = transforms.Compose(
         [
             transforms.Resize(950, 450),
@@ -28,3 +34,69 @@ def predict(model, image_path):
         _, predicted = torch.max(output, 1)
 
     return predicted.item()
+
+
+# Predict the class of an image from a PIL image. Returns the class index
+def predict_from_image(model, image):
+    transform = transforms.Compose(
+        [
+            transforms.Resize(950, 450),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+        ]
+    )
+
+    image = transform(image).unsqueeze(0)  # Add batch dimension
+
+    with torch.no_grad():
+        output = model(image)
+        _, predicted = torch.max(output, 1)
+
+    return predicted.item()
+
+
+# Crop images from a JSON file with coordinates. Returns a list of PIL images
+def crop_images_from_json(image_path, json_path):
+    # Load the image
+    image = Image.open(image_path)
+
+    # Load the JSON file
+    with open(json_path, "r") as file:
+        crop_data = json.load(file)
+
+    images = []
+
+    # Iterate through the list of crop coordinates
+    for _, crop in enumerate(crop_data):
+        x = crop["x"]
+        y = crop["y"]
+        width = crop["width"]
+        height = crop["height"]
+
+        # Crop the image
+        cropped_image = image.crop((x, y, x + width, y + height))
+
+        images.append(cropped_image)
+
+
+# Predict the class of an image from a full image and a JSON file with coordinates. Stores the prediction in a csv file
+def predict_and_save(model, image_path, coordinates_path, output_path):
+    images = crop_images_from_json(image_path, coordinates_path)
+    predictions = []
+
+    for image in images:
+        prediction = predict_from_image(model, image)
+        predictions.append(prediction)
+
+    # Check if the CSV file exists
+    if not os.path.exists(output_path):
+        with open(output_path, mode="w", newline="") as file:
+            writer = csv.writer(file)
+            # Create column names from A to Z
+            column_names = [chr(i) for i in range(65, 65 + len(predictions))]
+            writer.writerow(column_names)
+
+    # Append the predictions to the CSV file
+    with open(output_path, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(predictions)
