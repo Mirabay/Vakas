@@ -1,7 +1,7 @@
 import torch
 from torchvision import transforms
 from PIL import Image
-from SimpleCNN import SimpleCNN
+from .SimpleCNN import SimpleCNN
 import json
 from PIL import Image
 import csv
@@ -52,6 +52,8 @@ def crop_images_from_json(image_path, json_path):
         y = crop["y"]
         width = crop["width"]
         height = crop["height"]
+        # Print the image
+        image.show()
 
         # Crop the image
         cropped_image = image.crop((x, y, x + width, y + height))
