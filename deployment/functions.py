@@ -6,12 +6,13 @@ import json
 from PIL import Image
 import csv
 import os
+from datetime import datetime
 
 
 # Load the model. Returns the model
-def load_model(model_path):
+def load_model(model_path, device="cpu"):
     model = SimpleCNN()
-    model.load_state_dict(torch.load(model_path))
+    model.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
     model.eval()
     return model
 
@@ -67,12 +68,22 @@ def predict_and_save(model, image_path, coordinates_path, output_path):
         prediction = predict_from_image(model, image)
         predictions.append(prediction)
 
+    # Get the timestamp from the image path
+    # Extract the timestamp from the image filename
+    filename = os.path.basename(image_path)
+    timestamp_str = filename.split(".")[0]
+
+    # Convert the timestamp to a standardized format
+    timestamp = datetime.strptime(timestamp_str, "%Y-%m-%d-%H-%M-%S").strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+
     # Check if the CSV file exists
     if not os.path.exists(output_path):
         with open(output_path, mode="w", newline="") as file:
             writer = csv.writer(file)
             # Create column names from A to Z and then AA to ZZ if needed
-            column_names = []
+            column_names = ["Timestamp"]
             for i in range(len(predictions)):
                 if i < 26:
                     column_names.append(chr(65 + i))
@@ -81,6 +92,7 @@ def predict_and_save(model, image_path, coordinates_path, output_path):
             writer.writerow(column_names)
 
     # Append the predictions to the CSV file
+    row = [timestamp] + predictions
     with open(output_path, mode="a", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(predictions)
+        writer.writerow(row)
