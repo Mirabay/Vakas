@@ -41,7 +41,27 @@ def plot_most_used_bed(df):
         orient="h",
     )
     sns.despine()
-    plt.title("Vacas acostadas en cada cama")
+    plt.title("Número de vacas acostadas por cada cama")
+    plt.ylabel("Cama")
+    plt.xlabel("Conteo")
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_most_empty_bed(df):
+    bed_counts = (
+        df[["A", "B", "C"]]
+        .apply(lambda x: (x == "cama_vacia").sum())
+        .sort_values(ascending=False)
+    )
+    sns.set_theme(style="whitegrid", palette="pastel")
+    sns.barplot(
+        x=bed_counts.values,
+        y=bed_counts.index,
+        orient="h",
+    )
+    sns.despine()
+    plt.title("Número de camas vacías por cada cama")
     plt.ylabel("Cama")
     plt.xlabel("Conteo")
     plt.tight_layout()
@@ -60,3 +80,4 @@ df["Timestamp"] = pd.to_datetime(df["Timestamp"])
 df.set_index("Timestamp", inplace=True)
 
 plot_most_used_bed(df)
+plot_most_empty_bed(df)
