@@ -41,7 +41,7 @@ def plot_most_used_bed(df):
         orient="h",
     )
     sns.despine()
-    plt.title("Vacas acostadas en Cada Cama")
+    plt.title("Vacas acostadas en cada cama")
     plt.ylabel("Cama")
     plt.xlabel("Conteo")
     plt.tight_layout()
