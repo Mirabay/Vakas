@@ -1,4 +1,5 @@
 import pandas as pd
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 
@@ -7,19 +8,16 @@ def plot_distribution(df):
     fig, ax = plt.subplots(3, 1, figsize=(10, 8), sharex=True)
 
     # Plot column A
-    df["A"].value_counts().sort_index().plot(
-        ax=ax[0], kind="bar", color="blue", title="Cama A"
-    )
+    sns.countplot(x="A", data=df, ax=ax[0], color="blue")
+    ax[0].set_title("Cama A")
 
     # Plot column B
-    df["B"].value_counts().sort_index().plot(
-        ax=ax[1], kind="bar", color="green", title="Cama B"
-    )
+    sns.countplot(x="B", data=df, ax=ax[1], color="green")
+    ax[1].set_title("Cama B")
 
     # Plot column C
-    df["C"].value_counts().sort_index().plot(
-        ax=ax[2], kind="bar", color="red", title="Cama C"
-    )
+    sns.countplot(x="C", data=df, ax=ax[2], color="red")
+    ax[2].set_title("Cama C")
 
     # Set labels
     for a in ax:
@@ -31,12 +29,21 @@ def plot_distribution(df):
 
 
 def plot_most_used_bed(df):
-    bed_counts = df[["A", "B", "C"]].apply(lambda x: (x == "vaca_acostada").sum())
-    bed_counts.plot(
-        kind="bar", color=["blue", "green", "red"], title="Vaca Acostada en Cada Cama"
+    bed_counts = (
+        df[["A", "B", "C"]]
+        .apply(lambda x: (x == "vaca_acostada").sum())
+        .sort_values(ascending=False)
     )
-    plt.ylabel("Conteo")
-    plt.xlabel("Cama")
+    sns.set_theme(style="whitegrid", palette="pastel")
+    sns.barplot(
+        x=bed_counts.values,
+        y=bed_counts.index,
+        orient="h",
+    )
+    sns.despine()
+    plt.title("Vacas acostadas en Cada Cama")
+    plt.ylabel("Cama")
+    plt.xlabel("Conteo")
     plt.tight_layout()
     plt.show()
 
