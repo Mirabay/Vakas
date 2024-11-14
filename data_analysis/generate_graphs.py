@@ -68,6 +68,20 @@ def plot_most_empty_bed(df):
     plt.show()
 
 
+def plot_bed_subdivisions(df):
+    bed_counts = df[["A", "B", "C"]].apply(pd.Series.value_counts).fillna(0)
+    bed_counts = bed_counts.transpose()
+    bed_counts.plot(
+        kind="bar", stacked=True, figsize=(10, 8), color=["blue", "green", "red"]
+    )
+    plt.title("Distribución de categorías por cama")
+    plt.ylabel("Conteo")
+    plt.xlabel("Cama")
+    plt.legend(title="Categoría")
+    plt.tight_layout()
+    plt.show()
+
+
 # Read the CSV file called predictions
 df = pd.read_csv(
     "/home/oskar/Documents/ITC/IA/reto_vacas/modelo/Vakas/data_analysis/predictions.csv"
@@ -81,3 +95,4 @@ df.set_index("Timestamp", inplace=True)
 
 plot_most_used_bed(df)
 plot_most_empty_bed(df)
+plot_bed_subdivisions(df)
