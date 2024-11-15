@@ -8,7 +8,7 @@ class SimpleCNN(nn.Module):
         self.conv_layer = nn.Sequential(
             nn.Conv2d(
                 3, 16, kernel_size=3, padding=1
-            ),  # 3 canales de entrada, 16 filtros de 3x3
+            ),  # 3 canales de entrada, 64 filtros de 3x3
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
         )

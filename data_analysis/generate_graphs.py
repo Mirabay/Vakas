@@ -81,10 +81,22 @@ def plot_bed_subdivisions(df):
     plt.tight_layout()
     plt.show()
 
+def plot_bed_usage_over_time(df):
+    
+    category_mapping = {"vaca_acostada": 1, "vaca_parada": 2, "cama_vacia": 3}
+    df['C'] = df['C'].map(category_mapping)
+    # Filter data for one day
+    one_day_df = df.loc['2024-02-05']
+
+    # Plot the data for one day
+    one_day_df['C'].plot()
+    print(category_mapping)
+    plt.title("cama C")
+    plt.show()
 
 # Read the CSV file called predictions
 df = pd.read_csv(
-    "/home/oskar/Documents/ITC/IA/reto_vacas/modelo/Vakas/data_analysis/predictions.csv"
+    "C:/Users/urigo/Documents/Vakas/data_analysis/predictionsTrain2.csv"
 )
 
 # Convert timestamp to datetime
@@ -96,3 +108,4 @@ df.set_index("Timestamp", inplace=True)
 plot_most_used_bed(df)
 plot_most_empty_bed(df)
 plot_bed_subdivisions(df)
+plot_bed_usage_over_time(df)

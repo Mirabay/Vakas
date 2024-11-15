@@ -55,6 +55,8 @@ def crop_images_from_json(image_path, json_path):
 
         # Crop the image
         cropped_image = image.crop((x, y, x + width, y + height))
+        # cropped_image.show()
+        # input("Press Enter to continue...")
         images.append(cropped_image)
     return images
 
