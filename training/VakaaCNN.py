@@ -47,35 +47,35 @@ transform = transforms.Compose(
     ]
 )
 
-transform_test = transforms.Compose(
-    [
-        transforms.Resize((950, 450)),  # Resize the images 
-        transforms.ToTensor(),  # Convert image to tensor
-        transforms.Normalize(
-            mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]
-        ),  # Normalize the values
-    ]
-)
+# transform_test = transforms.Compose(
+#     [
+#         transforms.Resize((950, 450)),  # Resize the images 
+#         transforms.ToTensor(),  # Convert image to tensor
+#         transforms.Normalize(
+#             mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]
+#         ),  # Normalize the values
+#     ]
+# )
 
 # Cargar los conjuntos de datos desde las carpetas separadas
 train_dataset = ImageFolder(root="dataset_split\\train", transform=transform)
 validation_dataset = ImageFolder(root="dataset_split\\validation", transform=transform)
-test_dataset = ImageFolder(root="dataset_split\\test", transform=transform_test)
+test_dataset = ImageFolder(root="dataset_split\\test", transform=transform)
 
 
 
 # Crear los DataLoader para cada conjunto de datos
 train_loader = DataLoader(
-    train_dataset, batch_size=16, shuffle=True, num_workers=4, persistent_workers=True
+    train_dataset, batch_size=32, shuffle=True, num_workers=8, persistent_workers=True
 )
-validation_loader = DataLoader(validation_dataset, batch_size=16, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=16, shuffle=True)
+validation_loader = DataLoader(validation_dataset, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=32, shuffle=True)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Inicializar el modelo, criterio (loss) y optimizador
 model = SimpleCNN()
-weight = torch.tensor([1.0, 3.0, 6.0], device=device)  # Peso para cada clase
+weight = torch.tensor([3.0, 1.0, 9.0], device=device)  # Peso para cada clase
 criterion = nn.CrossEntropyLoss(weight=weight)  # Para clasificación multiclase
 optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
@@ -83,7 +83,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.0001)
 model.to(device)
 
 # Hiperparámetros
-num_epochs = 25
+num_epochs = 50
 AcurracyTarget = 90
 
 # Crear la carpeta 'TrainingHistory' si no existe
@@ -201,4 +201,4 @@ if __name__ == "__main__":
     plt.ylabel("Actual")
     plt.title("Confusion Matrix")
     plt.show()
-    plt.savefig("TrainingHistory/confusion_matrix.png")
+    # plt.savefig("TrainingHistory/confusion_matrix.png")
