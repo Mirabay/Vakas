@@ -22,7 +22,6 @@ class SimpleCNN(nn.Module):
             nn.Linear(64, 128),
             nn.ReLU(),
             nn.Linear(128, 3),  # 3 clases: vaca_de_pie, vaca_acostada, cama_vacia
-            # nn.Softmax(dim=1) # Softmax para clasificación multiclase
         )
 
     def forward(self, x):
