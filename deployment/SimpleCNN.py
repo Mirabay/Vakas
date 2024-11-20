@@ -1,3 +1,4 @@
+"This file contains the model for the classification of the images"
 import torch.nn as nn
 
 

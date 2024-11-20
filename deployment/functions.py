@@ -1,3 +1,4 @@
+"This script contains the functions for using the model"
 import torch
 from torchvision import transforms
 from PIL import Image
