@@ -1,4 +1,4 @@
-"This script generates a csv file with the predictions of the model for a folder of images. It requires a json file with the coordinates of each bed to crop the original images"
+"This script generates a CSV file with the predictions of the model for a folder of images"
 import sys
 import os
 from tqdm import tqdm
@@ -18,11 +18,11 @@ def predict_images_in_folder(folder_path, model):
             model,
             image_path,
             "C:/Users/urigo/Documents/Vakas/data_analysis/coordinates.json",
-            "C:/Users/urigo/Documents/Vakas/data_analysis/predictionsTrain2.csv",
+            "C:/Users/urigo/Documents/Vakas/data_analysis/predictionsFull-Dataset.csv",
         )
 
 
 # folder_path = "C:/Users/urigo/Downloads/Bed/Bed"
-folder_path = "C:\\Users\\urigo\\Documents\\Vakas\\dataset_full"
-model = load_model("C:\\Users\\urigo\\Documents\\Vakas\\Modelos\\model_acc_93.45.pth")
+folder_path = "C:\\Users\\urigo\\Downloads\\Bed\\Bed"
+model = load_model("C:\\Users\\urigo\\Documents\\Vakas\\Modelos\\model_acc_95.94.pth")
 predict_images_in_folder(folder_path, model)
