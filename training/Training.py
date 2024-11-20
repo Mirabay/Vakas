@@ -47,21 +47,10 @@ transform = transforms.Compose(
     ]
 )
 
-# transform_test = transforms.Compose(
-#     [
-#         transforms.Resize((950, 450)),  # Resize the images 
-#         transforms.ToTensor(),  # Convert image to tensor
-#         transforms.Normalize(
-#             mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]
-#         ),  # Normalize the values
-#     ]
-# )
-
 # Cargar los conjuntos de datos desde las carpetas separadas
 train_dataset = ImageFolder(root="dataset_split\\train", transform=transform)
 validation_dataset = ImageFolder(root="dataset_split\\validation", transform=transform)
 test_dataset = ImageFolder(root="dataset_split\\test", transform=transform)
-
 
 
 # Crear los DataLoader para cada conjunto de datos
@@ -108,7 +97,9 @@ if __name__ == "__main__":
         for images, labels in tqdm(
             train_loader, desc=f"Epoch {epoch+1}/{num_epochs}", unit="batch"
         ):
-            images, labels = images.to(device), labels.to(device)  # Move to the same device
+            images, labels = images.to(device), labels.to(
+                device
+            )  # Move to the same device
             optimizer.zero_grad()  # Resetear gradientes
             outputs = model(images)  # Forward
             loss = criterion(outputs, labels)  # Calcular pérdida
@@ -161,7 +152,9 @@ if __name__ == "__main__":
 
     # Precisión de validación
     plt.subplot(1, 2, 2)
-    plt.plot(range(1, num_epochs + 1), validation_accuracies, label="Validation Accuracy")
+    plt.plot(
+        range(1, num_epochs + 1), validation_accuracies, label="Validation Accuracy"
+    )
     plt.xlabel("Epochs")
     plt.ylabel("Accuracy (%)")
     plt.title("Validation Accuracy History")
@@ -182,7 +175,9 @@ if __name__ == "__main__":
 
     with torch.no_grad():
         for images, labels in test_loader:
-            images, labels = images.to(device), labels.to(device)  # Move to the same device
+            images, labels = images.to(device), labels.to(
+                device
+            )  # Move to the same device
             outputs = model(images)
             _, predicted = torch.max(outputs.data, 1)
             y_true += labels.cpu().numpy().tolist()
@@ -201,4 +196,3 @@ if __name__ == "__main__":
     plt.ylabel("Actual")
     plt.title("Confusion Matrix")
     plt.show()
-    # plt.savefig("TrainingHistory/confusion_matrix.png")
