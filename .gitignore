@@ -16,6 +16,7 @@ Modelos/model_acc_95.99.pth
 Modelos/model_acc_96.67.pth
 Modelos/model2_acc_98.14.pth
 {env_name}/
+new_env/
 __pycache__/
 dataset_split/test/cama_vacia/1_2024-01-11-12-18-04.jpg
 dataset_split/test/cama_vacia/1_2024-01-11-12-25-04.jpg

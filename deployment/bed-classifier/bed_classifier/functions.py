@@ -4,7 +4,6 @@ from torchvision import transforms
 from PIL import Image
 from .SimpleCNN import SimpleCNN
 import json
-from PIL import Image
 import csv
 import os
 from datetime import datetime
@@ -13,7 +12,9 @@ from datetime import datetime
 # Load the model. Returns the model
 def load_model(model_path, device="cpu"):
     model = SimpleCNN()
-    model.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
+    model.load_state_dict(
+        torch.load(model_path, map_location=torch.device(device), weights_only=True)
+    )
     model.eval()
     return model
 
