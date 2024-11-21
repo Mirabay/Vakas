@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bed-classifier"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["OshkarVTec <a01275287@tec.mx>"]
 readme = "README.md"
