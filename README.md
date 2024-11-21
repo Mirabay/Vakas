@@ -16,4 +16,6 @@ Los archivos están organizados de la siguiente manera:
 
 - training. Contiene los archvos necesarios para entrenar el modelo. Los imágenes utilizadas para el entrenamiento no se incluyen en este repositorio. También se incluye el archivo utilizado para evaluar los modelos.
 
+- final-model. Contiene los pesos para generar nuestro modelo funcional.
+
 **NOTA**. El repositorio no contiene todos los archivos necesarios para la ejecución de todos los códigos por limitaciones de GitHub en el tamaño de los archivos. No se incluyen los pesos generados de los modelos entrenados. Además, por cuestiones de la política de datos, no se incluyen las carpetas de imágenes utilizadas para clasificación.
