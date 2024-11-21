@@ -21,7 +21,9 @@ logging.basicConfig(
 def load_model(model_path, device="cpu"):
     try:
         model = SimpleCNN()
-        model.load_state_dict(torch.load(model_path, map_location=torch.device(device)))
+        model.load_state_dict(
+            torch.load(model_path, map_location=torch.device(device), weights_only=True)
+        )
         model.eval()
         return model
     except Exception as e:
