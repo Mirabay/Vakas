@@ -20,6 +20,6 @@ Los archivos están organizados de la siguiente manera:
 
 - training. Contiene los archvos necesarios para entrenar el modelo. Los imágenes utilizadas para el entrenamiento no se incluyen en este repositorio. También se incluye el archivo utilizado para evaluar los modelos.
 
-- final-model. Contiene los pesos para generar nuestro modelo funcional.
+- final-model. Los pesos del modelo final se pueden encontrar en ---> https://tecmx-my.sharepoint.com/:u:/g/personal/a01611795_tec_mx/EdDaQ_XB4lRGk-b0rv1RWt0B-aXwl_ZeWCH9kmFimmUGGQ?e=vGV9GC
 
 **NOTA**. El repositorio no contiene todos los archivos necesarios para la ejecución de todos los códigos por limitaciones de GitHub en el tamaño de los archivos. No se incluyen los pesos generados de los modelos entrenados. Además, por cuestiones de la política de datos, no se incluyen las carpetas de imágenes utilizadas para clasificación.
