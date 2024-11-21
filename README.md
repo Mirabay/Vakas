@@ -1,5 +1,5 @@
 ﻿# Inteligencia Artificial para el análisis de descanso de las vacas
-
+ 
 Este proyecto incluye el código utilizado para entrenar un modelo de clasificación basado en redes neuronales, que identifica el estado de una cama entre las siguientes opciones:
 
 - Cama vacía.
@@ -10,7 +10,7 @@ Además, se incluye el código con las funciones para cargar el modelo y utiliza
 
 Los archivos están organizados de la siguiente manera:
 
-- docs. Contiene los reportes realizados durante las diferentes fases del desarrollo del proyecto, en el cual se utilizo como marco de trabajo CRISP-DM.
+- docs. Contiene los reportes realizados durante las diferentes fases del desarrollo del proyecto, en el cual se utilizo como marco de trabajo CRISP-DM. LOS DOCUMENTOS DEBEN DESCARGARSE PARA ACCEDER A LOS HIPERVINCULOS.
 
 - deploy-architecture. Contiene el script e imagenes de prueba con el que se probo en la Raspberry Pi 3.
 
