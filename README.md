@@ -10,11 +10,9 @@ Además, se incluye el código con las funciones para cargar el modelo y utiliza
 
 Los archivos están organizados de la siguiente manera:
 
-- docs. Contiene los reportes realizados durante las diferentes fases del desarrollo del proyecto, en el cual se utilizo como marco de trabajo CRISP-DM. LOS DOCUMENTOS DEBEN DESCARGARSE PARA ACCEDER A LOS HIPERVINCULOS.
+- docs. Contiene una carpeta titulada CRISP-DM donde se encuentran los reportes realizados durante las diferentes fases del desarrollo del proyecto, en el cual se utilizo como marco de trabajo CRISP-DM, de igual manera se encontrara una carpeta donde se encuentran los manueales realizados. LOS DOCUMENTOS DEBEN DESCARGARSE PARA ACCEDER A LOS HIPERVINCULOS.
 
-- deploy-architecture. Contiene el script e imagenes de prueba con el que se probo en la Raspberry Pi 3.
-
-- data_analysis. Contiene los archivos utilizados para realizar análisis de los datos una vez que se tiene el modelo entenado. Estos archivos no son necesarios para utilizar el modelo, pero son incluidos como una guía para analizar los datos en el futuro y como evidencia del trabajo realizado de análisis.
+- miscelleneous. En esta carpeta se encontraran todos los scripts que se usaron para deploy-architecture, split de dataset y data anaylisis.
 
 - deployment. Contiene los archivos que se necesitan para importar y utilizar el modelo. No contiene el archivo con los pesos del modelo entrenado. Este archivo se entrega por separado.
 
