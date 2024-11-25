@@ -1,4 +1,11 @@
-﻿# Inteligencia Artificial para el análisis de descanso de las vacas
+| ![Logo TC](https://github.com/Mirabay/Vakas/blob/readme/miscellaneous/logo_TC/logo_TC.png) | ![Vaca](https://github.com/Mirabay/Vakas/blob/readme/miscellaneous/logo_TC/vaca.jpg) |
+|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|
+
+<img src="https://github.com/Mirabay/Vakas/blob/readme/miscellaneous/logo_TC/logo_TC.png" alt="Descripción de la imagen" width="400" height="400">
+
+<img src="https://github.com/Mirabay/Vakas/blob/readme/miscellaneous/logo_TC/vaca.jpg" alt="Descripción de la imagen" width="800" height="400">
+
+ # Inteligencia Artificial para el análisis de descanso de las vacas
  
 Este proyecto incluye el código utilizado para entrenar un modelo de clasificación basado en redes neuronales, que identifica el estado de una cama entre las siguientes opciones:
 
