@@ -3,7 +3,7 @@
 </p>
 
 
- # 🐄 Inteligencia Artificial para el análisis de descanso de las vacas 🐄
+ # 🐄 Inteligencia Artificial para el análisis del descanso de las vacas 🐄
  
 Este proyecto incluye el código utilizado para entrenar un modelo de clasificación basado en redes neuronales, que identifica el estado de una cama entre las siguientes opciones:
 
@@ -42,7 +42,7 @@ Además, se incluye el código con las funciones para cargar el modelo y utiliza
   -  **`bed_classifer`**: Se encuentra la arquitectura para la CNN y sus funciones para correr dicha arquitectura.
   -  **`dist`**: Paquetes para descargar nuestros archivos con el comando pip install.
   -  **`test`**: Pruebas para saber que los paquetes funcionan correctamente.
-- 
+- Link del repositorio para la UI disponible [aquí](https://github.com/OshkarVTec/seleccion_camas_ui).
 - **Nota:** El archivo con los pesos del modelo entrenado no está incluido por limitaciones de tamaño.
 
 ---
