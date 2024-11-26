@@ -1,19 +1,20 @@
 from bed_classifier.functions import predict_and_save, load_model
 
-# Import the functions from functions.py
-
 
 def main():
-    model = load_model(
-        "/home/oskar/Documents/ITC/IA/reto_vacas/modelo/Vakas/deployment/model_acc_95.94.pth"
+    path_to_model_weights = "path/to/model_weights.pth"
+    image_path = "path/to/image.jpg"
+    coordinates_path = "path/to/coordinates.json"
+    path_to_database = (
+        "path/to/database.csv"  # This will be created if it does not exist
     )
-    image_path = "/home/oskar/Documents/ITC/IA/reto_vacas/clasificador/fotos_originales/2024-02-07-06-45-03.jpg"
-    json_path = "/home/oskar/Documents/ITC/IA/reto_vacas/modelo/Vakas/data_analysis/coordinates.json"
+
+    model = load_model(path_to_model_weights)
     predict_and_save(
         model,
         image_path,
-        json_path,
-        "/home/oskar/Documents/ITC/IA/reto_vacas/modelo/Vakas/deployment/predictions.csv",
+        coordinates_path,
+        path_to_database,
     )
 
 
