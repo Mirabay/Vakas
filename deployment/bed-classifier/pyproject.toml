@@ -1,17 +1,22 @@
 [tool.poetry]
 name = "bed-classifier"
-version = "0.1.4"
+version = "0.1.5"
 description = ""
 authors = ["OshkarVTec <a01275287@tec.mx>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-torch = "^2.5.1"
-torchvision = "^0.20.1"
 pillow = "^11.0.0"
 datetime = "^5.5"
+torch = {version = "^2.5.1", source = "pytorch_cpu"}
+torchvision = {version = "^0.20.1", source = "pytorch_cpu"}
 
+
+[[tool.poetry.source]]
+name = "pytorch_cpu"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core"]
