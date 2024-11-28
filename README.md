@@ -23,6 +23,7 @@ Además, se incluye el código con las funciones para cargar el modelo y utiliza
   - **`CRISP-DM`**: Reportes detallados de cada fase del proyecto.
   - **`Manuales`**: Guías y manuales desarrollados.
   - **`Data Security`**: Politicas y planes.
+  -  **`Plans and report`**: Planes de entrega y de monitoreo del correcto funcionamiento del modelo y nuestro reporte final.
 - **Nota:** Los documentos deben descargarse para acceder a los hipervínculos.
 
 ---
@@ -62,8 +63,3 @@ Además, se incluye el código con las funciones para cargar el modelo y utiliza
 
 ---
 
-
-## 💻 Ejemplo de Uso
-
-
-**NOTA**. El repositorio no contiene todos los archivos necesarios para la ejecución de todos los códigos por limitaciones de GitHub en el tamaño de los archivos. No se incluyen los pesos generados de los modelos entrenados. Además, por cuestiones de la política de datos, no se incluyen las carpetas de imágenes utilizadas para clasificación.
